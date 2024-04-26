@@ -26,5 +26,10 @@ namespace Magazine_System
             Form1 form = new Form1();
             form.Show();
         }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
