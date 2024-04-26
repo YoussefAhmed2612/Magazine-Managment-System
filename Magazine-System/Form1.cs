@@ -27,8 +27,7 @@ namespace Magazine_System
             conn.Open();
             OracleCommand cmd = new OracleCommand();
             cmd.Connection = conn;
-            //check table name
-            cmd.CommandText = "select MagazineId from Magazine";
+            cmd.CommandText = "select MagazineId from Magazines";
             cmd.CommandType = CommandType.Text;
 
             OracleDataReader dr = cmd.ExecuteReader();
@@ -103,7 +102,6 @@ namespace Magazine_System
             OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
             cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
             cmdProc.Parameters.Add("p_magazine_id",comboBox2.SelectedItem.ToString());
-            //check here
             cmdProc.Parameters.Add("p_title", richTextBox3.Text);
             cmdProc.Parameters.Add("p_author_id", richTextBox2.Text);
             cmdProc.Parameters.Add("p_publication_date", richTextBox4.Text);
