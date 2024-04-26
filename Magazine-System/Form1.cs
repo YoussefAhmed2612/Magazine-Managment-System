@@ -60,11 +60,11 @@ namespace Magazine_System
         {
             string cmdstring = "insert into Magazines Values(:mId,:aId,:Title,:PubDate,0,0,0,:Cat)";
             OracleCommand cmdSelect = new OracleCommand(cmdstring, conn);
-            cmdSelect.Parameters.Add("mId", richTextBox3.Text);
-            cmdSelect.Parameters.Add("aId", richTextBox2.Text);
-            cmdSelect.Parameters.Add("Title", comboBox2.Text);
-            cmdSelect.Parameters.Add("PubDate", richTextBox4.Text);
-            cmdSelect.Parameters.Add("Cat", richTextBox5.Text);
+            cmdSelect.Parameters.Add(":mId", richTextBox3.Text);
+            cmdSelect.Parameters.Add(":aId", richTextBox2.Text);
+            cmdSelect.Parameters.Add(":Title", comboBox2.Text);
+            cmdSelect.Parameters.Add(":PubDate", richTextBox4.Text);
+            cmdSelect.Parameters.Add(":Cat", richTextBox5.Text);
             int r = cmdSelect.ExecuteNonQuery();
             if (r != -1)
             {
@@ -101,11 +101,11 @@ namespace Magazine_System
 
             OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
             cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
-            cmdProc.Parameters.Add("p_magazine_id",comboBox2.SelectedItem.ToString());
-            cmdProc.Parameters.Add("p_title", richTextBox3.Text);
-            cmdProc.Parameters.Add("p_author_id", richTextBox2.Text);
-            cmdProc.Parameters.Add("p_publication_date", richTextBox4.Text);
-            cmdProc.Parameters.Add("p_category", richTextBox5.Text);
+            cmdProc.Parameters.Add(":p_magazine_id", comboBox2.SelectedItem.ToString());
+            cmdProc.Parameters.Add(":p_title", richTextBox3.Text);
+            cmdProc.Parameters.Add(":p_author_id", richTextBox2.Text);
+            cmdProc.Parameters.Add(":p_publication_date", richTextBox4.Text);
+            cmdProc.Parameters.Add(":p_category", richTextBox5.Text);
             OracleDataReader dr= cmdProc.ExecuteReader();
             while (dr.Read()) {
                 richTextBox3.Text = dr[0].ToString();
@@ -115,6 +115,11 @@ namespace Magazine_System
             }
 
             dr.Close();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            conn.Close();
         }
     }
 }
