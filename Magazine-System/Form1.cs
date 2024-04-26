@@ -28,7 +28,7 @@ namespace Magazine_System
             OracleCommand cmd = new OracleCommand();
             cmd.Connection = conn;
             //check table name
-            cmd.CommandText = "select MagazineId from Magazine";
+            cmd.CommandText = "select MagazineId from Magazines";
             cmd.CommandType = CommandType.Text;
 
             OracleDataReader dr = cmd.ExecuteReader();
@@ -100,23 +100,30 @@ namespace Magazine_System
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
-            cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
-            cmdProc.Parameters.Add("p_magazine_id",comboBox2.SelectedItem.ToString());
-            //check here
-            cmdProc.Parameters.Add("p_title", richTextBox3.Text);
-            cmdProc.Parameters.Add("p_author_id", richTextBox2.Text);
-            cmdProc.Parameters.Add("p_publication_date", richTextBox4.Text);
-            cmdProc.Parameters.Add("p_category", richTextBox5.Text);
-            OracleDataReader dr= cmdProc.ExecuteReader();
-            while (dr.Read()) {
-                richTextBox3.Text = dr[0].ToString();
-                richTextBox2.Text = dr[1].ToString();
-                richTextBox4.Text = dr[2].ToString();
-                richTextBox5.Text = dr[3].ToString();
+           OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
+     cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
+     cmdProc.Parameters.Add(":p_magazine_id", comboBox2.SelectedItem.ToString());
+     //check here
+     cmdProc.Parameters.Add("p_title", OracleDbType.Varchar2,ParameterDirection.Output);
+     cmdProc.Parameters.Add("p_author_id", OracleDbType.Int32, ParameterDirection.Output);
+     cmdProc.Parameters.Add("p_publication_date", OracleDbType.Date, ParameterDirection.Output);
+     cmdProc.Parameters.Add("p_category", OracleDbType.Varchar2, ParameterDirection.Output);
+            int r = cmdProc.ExecuteNonQuery();
+            if (r != -1)
+            {
+                MessageBox.Show("Added Successfully");
             }
 
-            dr.Close();
+            richTextBox3.Text = cmdProc.Parameters["p_title"].Value.ToString();
+     richTextBox2.Text = cmdProc.Parameters["p_author_id"].Value.ToString();
+     richTextBox4.Text = ((DateTime)cmdProc.Parameters["p_publication_date"].Value).ToString("yyyy-MM-dd");
+     richTextBox5.Text = cmdProc.Parameters["p_category"].Value.ToString();
+            
+
+
+ 
+           
         }
+
     }
 }
