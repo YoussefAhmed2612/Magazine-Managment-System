@@ -28,7 +28,7 @@ namespace Magazine_System
             OracleCommand cmd = new OracleCommand();
             cmd.Connection = conn;
             //check table name
-            cmd.CommandText = "select MagazineId from Magazines";
+            cmd.CommandText = "select MagazineId from Magazine";
             cmd.CommandType = CommandType.Text;
 
             OracleDataReader dr = cmd.ExecuteReader();
@@ -61,11 +61,11 @@ namespace Magazine_System
         {
             string cmdstring = "insert into Magazines Values(:mId,:aId,:Title,:PubDate,0,0,0,:Cat)";
             OracleCommand cmdSelect = new OracleCommand(cmdstring, conn);
-            cmdSelect.Parameters.Add("mId", richTextBox3.Text);
-            cmdSelect.Parameters.Add("aId", richTextBox2.Text);
-            cmdSelect.Parameters.Add("Title", comboBox2.Text);
-            cmdSelect.Parameters.Add("PubDate", richTextBox4.Text);
-            cmdSelect.Parameters.Add("Cat", richTextBox5.Text);
+            cmdSelect.Parameters.Add(":mId", richTextBox3.Text);
+            cmdSelect.Parameters.Add(":aId", richTextBox2.Text);
+            cmdSelect.Parameters.Add(":Title", comboBox2.Text);
+            cmdSelect.Parameters.Add(":PubDate", richTextBox4.Text);
+            cmdSelect.Parameters.Add(":Cat", richTextBox5.Text);
             int r = cmdSelect.ExecuteNonQuery();
             if (r != -1)
             {
@@ -100,9 +100,23 @@ namespace Magazine_System
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-          
-           
-        }
+            OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
+            cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
+            cmdProc.Parameters.Add("p_magazine_id",comboBox2.SelectedItem.ToString());
+            //check here
+            cmdProc.Parameters.Add("p_title", richTextBox3.Text);
+            cmdProc.Parameters.Add("p_author_id", richTextBox2.Text);
+            cmdProc.Parameters.Add("p_publication_date", richTextBox4.Text);
+            cmdProc.Parameters.Add("p_category", richTextBox5.Text);
+            OracleDataReader dr= cmdProc.ExecuteReader();
+            while (dr.Read()) {
+                richTextBox3.Text = dr[0].ToString();
+                richTextBox2.Text = dr[1].ToString();
+                richTextBox4.Text = dr[2].ToString();
+                richTextBox5.Text = dr[3].ToString();
+            }
 
+            dr.Close();
+        }
     }
 }
