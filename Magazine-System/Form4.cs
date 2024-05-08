@@ -42,18 +42,9 @@ namespace Magazine_System
             form.Show();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            Form6 form = new Form6();
-            form.Show();
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Form7 form = new Form7();
-            form.Show();
+            
         }
     }
 }
