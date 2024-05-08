@@ -22,7 +22,8 @@ namespace Magazine_System
         public Form3()
         {
             InitializeComponent();
-            instance=this;
+            instance = this;
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -49,6 +50,13 @@ namespace Magazine_System
             builder=new OracleCommandBuilder(adapter);
             adapter.Update(dataset.Tables[0]);
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form2 form = new Form2();
+            form.Show();
         }
     }
 }
