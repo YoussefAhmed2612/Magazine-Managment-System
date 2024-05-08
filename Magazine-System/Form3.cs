@@ -58,5 +58,10 @@ namespace Magazine_System
             Form2 form = new Form2();
             form.Show();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

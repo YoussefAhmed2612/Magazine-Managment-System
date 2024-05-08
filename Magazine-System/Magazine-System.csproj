@@ -141,5 +141,8 @@
   <ItemGroup>
     <None Include="MagazineImg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\HomeScreenBg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
