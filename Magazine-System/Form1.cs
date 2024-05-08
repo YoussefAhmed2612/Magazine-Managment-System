@@ -13,30 +13,32 @@ namespace Magazine_System
 {
     public partial class Form1 : Form
     {
+        public static Form1 instance;
         string ordb = "Data source=orcl;User Id=hr; Password=hr;"; 
         OracleConnection conn;
 
         public Form1()
         {
             InitializeComponent();
+            instance = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             conn = new OracleConnection(ordb);
             conn.Open();
-            OracleCommand cmd = new OracleCommand();
-            cmd.Connection = conn;
-            //check table name
-            cmd.CommandText = "select MagazineId from Magazine";
-            cmd.CommandType = CommandType.Text;
+            //OracleCommand cmd = new OracleCommand();
+            //cmd.Connection = conn;
+            ////check table name
+            //cmd.CommandText = "select MagazineId from Magazines";
+            //cmd.CommandType = CommandType.Text;
 
-            OracleDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                comboBox2.Items.Add(dr[0]);
-            }
-            dr.Close();
+            //OracleDataReader dr = cmd.ExecuteReader();
+            //while (dr.Read())
+            //{
+            //    comboBox2.Items.Add(dr[0]);
+            //}
+            //dr.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -59,13 +61,13 @@ namespace Magazine_System
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string cmdstring = "insert into Magazines Values(:mId,:aId,:Title,:PubDate,0,0,0,:Cat)";
+            string cmdstring = "insert into Magazines Values(:mId,:aId,:Cat,:Title,TO_DATE(:PubDate, 'DD-MON-RR'),0,0,0)";
             OracleCommand cmdSelect = new OracleCommand(cmdstring, conn);
-            cmdSelect.Parameters.Add(":mId", richTextBox3.Text);
+            cmdSelect.Parameters.Add(":mId", comboBox2.Text);
             cmdSelect.Parameters.Add(":aId", richTextBox2.Text);
-            cmdSelect.Parameters.Add(":Title", comboBox2.Text);
-            cmdSelect.Parameters.Add(":PubDate", richTextBox4.Text);
             cmdSelect.Parameters.Add(":Cat", richTextBox5.Text);
+            cmdSelect.Parameters.Add(":Title", richTextBox3.Text);
+            cmdSelect.Parameters.Add(":PubDate", richTextBox4.Text);
             int r = cmdSelect.ExecuteNonQuery();
             if (r != -1)
             {
@@ -90,6 +92,24 @@ namespace Magazine_System
 
         private void button3_Click(object sender, EventArgs e)
         {
+            OracleCommand cmd = new OracleCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = " GetAllMagazines";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("p_cursor", OracleDbType.RefCursor, ParameterDirection.Output);
+            OracleDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                comboBox2.Items.Add(dr[0]);
+                richTextBox2.Text = dr[1].ToString();
+                richTextBox3.Text = dr[3].ToString();
+                richTextBox4.Text = dr[4].ToString();
+                richTextBox5.Text = dr[2].ToString();
+                textBox2.Text = dr[7].ToString();
+                textBox3.Text = dr[6].ToString();
+                textBox4.Text = dr[5].ToString();
+            }
+            dr.Close();
         }
 
         private void richTextBox7_TextChanged(object sender, EventArgs e)
@@ -99,24 +119,47 @@ namespace Magazine_System
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            OracleCommand cmd = new OracleCommand();
+            cmd.Connection = conn;
+            cmd.CommandText = "GetMagazineByID";
+            cmd.CommandType= CommandType.StoredProcedure;
+           // cmd.Parameters.Add("p_MagazineID", OracleDbType.Int32).Value = int.Parse(comboBox2.Text);
+            cmd.Parameters.Add("p_MagazineID", Convert.ToInt32(comboBox2.SelectedItem.ToString()));
+            cmd.Parameters.Add("p_AuthorID",OracleDbType.Int32,ParameterDirection.Output);
+            cmd.Parameters.Add("p_Category", OracleDbType.Varchar2, ParameterDirection.Output);
+            cmd.Parameters.Add("p_Title", OracleDbType.Varchar2, ParameterDirection.Output);
+            cmd.Parameters.Add("p_PublishedOn", OracleDbType.Date, ParameterDirection.Output);
+            cmd.Parameters.Add("p_Likes", OracleDbType.Int32, ParameterDirection.Output);
+            cmd.Parameters.Add("p_Reports", OracleDbType.Int32, ParameterDirection.Output);
+            cmd.Parameters.Add("p_Shares", OracleDbType.Int32, ParameterDirection.Output);
 
-            OracleCommand cmdProc = new OracleCommand("GET_MAGAZINE_INFO", conn);
-            cmdProc.CommandType = System.Data.CommandType.StoredProcedure;
-            cmdProc.Parameters.Add("p_magazine_id",comboBox2.SelectedItem.ToString());
-            //check here
-            cmdProc.Parameters.Add("p_title", richTextBox3.Text);
-            cmdProc.Parameters.Add("p_author_id", richTextBox2.Text);
-            cmdProc.Parameters.Add("p_publication_date", richTextBox4.Text);
-            cmdProc.Parameters.Add("p_category", richTextBox5.Text);
-            OracleDataReader dr= cmdProc.ExecuteReader();
-            while (dr.Read()) {
-                richTextBox3.Text = dr[0].ToString();
-                richTextBox2.Text = dr[1].ToString();
-                richTextBox4.Text = dr[2].ToString();
-                richTextBox5.Text = dr[3].ToString();
-            }
+            cmd.ExecuteNonQuery();
 
-            dr.Close();
+            richTextBox2.Text = cmd.Parameters["p_AuthorID"].Value.ToString();
+            richTextBox3.Text = cmd.Parameters["p_Title"].Value.ToString();
+            richTextBox4.Text = cmd.Parameters["p_PublishedOn"].Value.ToString();
+            richTextBox5.Text = cmd.Parameters["p_Category"].Value.ToString();
+            textBox4.Text = cmd.Parameters["p_Likes"].Value.ToString();
+            textBox3.Text = cmd.Parameters["p_Reports"].Value.ToString();
+            textBox2.Text = cmd.Parameters["p_Shares"].Value.ToString();
+
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form3 form = new Form3();
+            form.Show();
         }
     }
 }
