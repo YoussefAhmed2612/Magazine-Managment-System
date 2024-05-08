@@ -21,6 +21,7 @@ namespace Magazine_System
         {
             InitializeComponent();
             instance = this;
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -40,7 +41,7 @@ namespace Magazine_System
             //}
             //dr.Close();
         }
-
+        //task 1
         private void button1_Click(object sender, EventArgs e)
         {
             string cmdstring = "SELECT TITLE FROM Magazines WHERE MagazineCategory = :category";
@@ -159,6 +160,13 @@ namespace Magazine_System
         {
             this.Hide();
             Form3 form = new Form3();
+            form.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form4 form = new Form4();
             form.Show();
         }
     }

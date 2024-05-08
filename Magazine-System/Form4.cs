@@ -10,33 +10,28 @@ using System.Windows.Forms;
 
 namespace Magazine_System
 {
-    public partial class Form2 : Form
+    public partial class Form4 : Form
     {
-        public static Form2 instance;
-        public Form2()
+        public static Form4 instance;
+        public Form4()
         {
             InitializeComponent();
             instance = this;
             this.StartPosition = FormStartPosition.CenterScreen;
 
         }
-
+        //back button
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form2 form = new Form2();
+            form.Show();
+        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form4 form = new Form4();
-            form.Show();
-        }
-
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this.Hide();
-            Form3 form = new Form3();
+            Form1 form = new Form1();
             form.Show();
         }
     }
