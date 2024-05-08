@@ -34,5 +34,26 @@ namespace Magazine_System
             Form1 form = new Form1();
             form.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form5 form = new Form5();
+            form.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form6 form = new Form6();
+            form.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form7 form = new Form7();
+            form.Show();
+        }
     }
 }
