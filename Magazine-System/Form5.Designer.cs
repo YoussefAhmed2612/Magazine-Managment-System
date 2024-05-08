@@ -45,6 +45,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Magazine_System.Properties.Resources.MagazineImg;
             this.ClientSize = new System.Drawing.Size(991, 595);
             this.Controls.Add(this.button1);
             this.Name = "Form5";
