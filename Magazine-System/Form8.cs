@@ -18,7 +18,8 @@ namespace Magazine_System
         {
             InitializeComponent();
             instance = this;
-            
+            this.StartPosition = FormStartPosition.CenterScreen;
+
         }
 
         private void Form8_Load(object sender, EventArgs e)
@@ -35,6 +36,11 @@ namespace Magazine_System
             crystalReportViewer1.ReportSource = CR;
         }
 
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form6 form = new Form6();
+            form.Show();
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Magazine_System
         {
             InitializeComponent();
             instance = this;
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void Form7_Load(object sender, EventArgs e)
@@ -53,6 +54,13 @@ namespace Magazine_System
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form6 form = new Form6();
+            form.Show();
         }
     }
 }
