@@ -1,0 +1,5 @@
+create or replace PROCEDURE GET_MAGAZINE_INFO( p_magazine_id IN Number, p_title OUT VARCHAR2, p_author_id OUT NUMBER p_publication_date OUT DATE, p_category OUT VARCHAR2)
+AS BEGIN SELECT Title, AuthorID, publishedon, magazinecategory INTO p_title, p_author_id, p_publication_date, p_category
+    FROM Magazines
+    WHERE MagazineID = p_magazine_id;
+END;

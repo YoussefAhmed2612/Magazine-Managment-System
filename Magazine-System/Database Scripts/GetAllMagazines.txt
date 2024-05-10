@@ -1,0 +1,2 @@
+
+CREATE OR REPLACE PROCEDURE GetAllMagazines ( p_cursor OUT SYS_REFCURSOR ) AS BEGIN OPEN p_cursor FOR SELECT MagazineID, AuthorID, MagazineCategory, Title, PublishedOn, Likes, Reports, Shares FROM Magazines; END;
